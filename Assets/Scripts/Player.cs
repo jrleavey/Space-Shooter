@@ -74,9 +74,20 @@ public class Player : MonoBehaviour
             FireLaser();
         }
 
-        if (Input.GetKeyDown("escape"))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _speed = _speed * 2;
+            _Boostedspeed = _Boostedspeed * 2f;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            _speed = _speed * 0.5f;
+            _Boostedspeed = _Boostedspeed * 0.5f;
         }
     }
     void CalculateMovement()
@@ -105,13 +116,13 @@ public class Player : MonoBehaviour
 
             transform.position = new Vector3(transform.position.x, -3.8f);
 
-        if (transform.position.x > 13.7f)
+        if (transform.position.x > 11.4f)
 
-            transform.position = new Vector3(-13.7f, transform.position.y, 0);
+            transform.position = new Vector3(-11.3f, transform.position.y, 0);
 
-        else if (transform.position.x < -13.7f)
+        else if (transform.position.x < -11.3f)
 
-            transform.position = new Vector3(13.7f, transform.position.y, 0);
+            transform.position = new Vector3(11.4f, transform.position.y, 0);
     }
     void FireLaser()
     {
