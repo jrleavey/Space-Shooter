@@ -19,7 +19,11 @@ public class Player : MonoBehaviour
     private int _lives = 3;
     private SpawnManager _spawnManager;
     [SerializeField]
-    private GameObject _shieldVisualizer;
+    private GameObject _shieldfull;
+    [SerializeField]
+    private GameObject _shieldpartial;
+    [SerializeField]
+    private GameObject _shieldminimal;
     [SerializeField]
     private GameObject _rightEngine;
     [SerializeField]
@@ -81,13 +85,13 @@ public class Player : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            _speed = _speed * 2;
-            _Boostedspeed = _Boostedspeed * 2f;
+            _speed = _speed + 3f;
+            _Boostedspeed = _Boostedspeed + 3f;
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            _speed = _speed * 0.5f;
-            _Boostedspeed = _Boostedspeed * 0.5f;
+            _speed = _speed - 3f;
+            _Boostedspeed = _Boostedspeed - 3f;
         }
     }
     void CalculateMovement()
@@ -145,13 +149,25 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        if (_isShieldActive == true)
+        if (_isShieldActive == true && _shieldfull.activeInHierarchy == true)
         {
-            _isShieldActive = false;
-            _shieldVisualizer.SetActive(false);
+            _shieldfull.SetActive(false);
+            _shieldpartial.SetActive(true);
             return;
         }
-            _lives--;
+        else if (_isShieldActive == true && _shieldpartial.activeInHierarchy == true)
+        {
+            _shieldpartial.SetActive(false);
+            _shieldminimal.SetActive(true);
+            return;
+        }
+        else if (_isShieldActive == true && _shieldminimal.activeInHierarchy == true)
+        {
+            _shieldminimal.SetActive(false);
+            _isShieldActive = false;
+            return;
+        }
+        _lives--;
        
         if (_lives == 2)
         {
@@ -198,15 +214,20 @@ public class Player : MonoBehaviour
 
     public void ShieldActive()
     {
+        _shieldfull.SetActive(true);
+        _shieldpartial.SetActive(false);
+        _shieldminimal.SetActive(false);
         _isShieldActive = true;
-        _shieldVisualizer.SetActive(true);
+
         StartCoroutine(ShieldPowerDownRoutine());
 
         IEnumerator ShieldPowerDownRoutine()
         {
-            yield return new WaitForSeconds(5.0f);
+            yield return new WaitForSeconds(15.0f);
             _isShieldActive = false;
-            _shieldVisualizer.SetActive(false);
+            _shieldfull.SetActive(false);
+            _shieldpartial.SetActive(false);
+            _shieldminimal.SetActive(false);
         }
     }
 
