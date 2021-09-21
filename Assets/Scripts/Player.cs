@@ -57,13 +57,10 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("The Spawn Manager is NULL!");
         }
-
-
         if (_uiManager == null)
         {
             Debug.LogError("The UI Manager is NULL!");
         }
-
         if (_audioSource == null)
         {
             Debug.LogError("AudioSource on player is NULL!");
