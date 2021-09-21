@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _canFire = -1f;
     [SerializeField]
+    private int _ammo = 15;
+    [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
     [SerializeField]
@@ -39,15 +41,19 @@ public class Player : MonoBehaviour
     private bool _isShieldActive = false;
     [SerializeField]
     private AudioClip _laserSoundClip;
+    [SerializeField]
     private AudioSource _audioSource;
+    [SerializeField]
+    private AudioClip _noAmmoSoundClip;
+    [SerializeField]
+    private AudioSource _audioSource2;
     void Start()
     {
 
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        _audioSource = GetComponent<AudioSource>();
-        if (_spawnManager == null)
+        if (_spawnManager == null)      
         {
             Debug.LogError("The Spawn Manager is NULL!");
         }
@@ -135,16 +141,19 @@ public class Player : MonoBehaviour
         if (_isTripleShotActive == true)
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+            _audioSource.Play();
         }
-        else
+        else if (_ammo > 0)
         {
             Instantiate(_laserprefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+            _ammo = _ammo - 1;
+            _audioSource.Play();
+            _uiManager.UpdateAmmo(_ammo);
         }
-
-        _audioSource.Play();
-
-
-
+        else if(_ammo == 0)
+        {
+            _audioSource2.Play();
+        }
     }
 
     public void Damage()
