@@ -237,6 +237,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void GetAmmo()
+    {
+        _ammo += 15;
+        _uiManager.UpdateAmmo(_ammo);
+
+    }
 
     public void AddScore(int points)
     {
