@@ -16,7 +16,7 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     public void StartSpawning()
@@ -51,11 +51,10 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         {
             Vector3 posttospawn = new Vector3(Random.Range(-9f, 9f), 9f, 0);
-            int randomPowerUp = Random.Range(0, 4);
+            int randomPowerUp = Random.Range(0, 5);
             Instantiate(_powerups[randomPowerUp], posttospawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(3, 8));
         }
-
     }
     public void OnPlayerDeath()
     {

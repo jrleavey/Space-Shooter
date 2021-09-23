@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _uiManager.UpdateLives(_lives);
         if (_spawnManager == null)      
         {
             Debug.LogError("The Spawn Manager is NULL!");
@@ -244,6 +245,14 @@ public class Player : MonoBehaviour
 
     }
 
+    public void AddLife()
+    {
+        if (_lives < 3)
+        {
+            _lives = _lives + 1;
+            _uiManager.UpdateLives(_lives);
+        }         
+    }
     public void AddScore(int points)
     {
         _score += points;
