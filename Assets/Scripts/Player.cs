@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _tripleShotPrefab;
     [SerializeField]
+    private GameObject _missilePrefab;
+    [SerializeField]
     private float _fireRate = 0.5f;
     [SerializeField]
     private float _canFire = -1f;
@@ -27,6 +29,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _shieldminimal;
     [SerializeField]
+    private GameObject _thrusters;
+    [SerializeField]
     private GameObject _rightEngine;
     [SerializeField]
     private GameObject _leftEngine;
@@ -35,6 +39,8 @@ public class Player : MonoBehaviour
     private UIManager _uiManager;
     [SerializeField]
     private bool _isTripleShotActive = false;
+    [SerializeField]
+    private bool _MissileActive = false;
     [SerializeField]
     private bool _isSpeedActive = false;
     [SerializeField]
@@ -47,6 +53,10 @@ public class Player : MonoBehaviour
     private AudioClip _noAmmoSoundClip;
     [SerializeField]
     private AudioSource _audioSource2;
+    [SerializeField]
+    private AudioClip _missileLaunch;
+    [SerializeField]
+    private AudioSource _audioSource3;
     void Start()
     {
 
@@ -91,11 +101,14 @@ public class Player : MonoBehaviour
         {
             _speed = _speed + 3f;
             _Boostedspeed = _Boostedspeed + 3f;
+            _thrusters.SetActive(true);
+            
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             _speed = _speed - 3f;
             _Boostedspeed = _Boostedspeed - 3f;
+            _thrusters.SetActive(false);
         }
     }
     void CalculateMovement()
@@ -140,6 +153,11 @@ public class Player : MonoBehaviour
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
             _audioSource.Play();
+        }
+        else if (_MissileActive == true)
+        {
+            Instantiate(_missilePrefab, transform.position, Quaternion.identity);
+            _audioSource3.Play();
         }
         else if (_ammo > 0)
         {
@@ -194,6 +212,7 @@ public class Player : MonoBehaviour
     }
     public void TripleShotActive()
     {
+        _MissileActive = false;
         _isTripleShotActive = true;
         StartCoroutine(TripleShotPowerdownRoutine());
 
@@ -201,6 +220,18 @@ public class Player : MonoBehaviour
         {
             yield return new WaitForSeconds(5.0f);
             _isTripleShotActive = false;
+        }
+    }
+    public void MissilesLauncher()
+    {
+        _isTripleShotActive = false;
+        _MissileActive = true;
+        StartCoroutine(MissilePowerDown());
+
+        IEnumerator MissilePowerDown()
+        {
+            yield return new WaitForSeconds(5.0f);
+            _MissileActive = false;
         }
     }
 
@@ -264,6 +295,7 @@ public class Player : MonoBehaviour
         }
                 
     }
+
     public void AddScore(int points)
     {
         _score += points;
