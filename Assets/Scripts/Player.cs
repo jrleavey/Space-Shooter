@@ -4,6 +4,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
+    private CameraShake _Camera;
+    [SerializeField]
     private float _speed = 5f;
     [SerializeField]
     private float _Boostedspeed = 8f;
@@ -193,7 +195,7 @@ public class Player : MonoBehaviour
             return;
         }
         _lives--;
-       
+
         if (_lives == 2)
         {
             _rightEngine.SetActive(true);
@@ -209,6 +211,7 @@ public class Player : MonoBehaviour
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
+        StartCoroutine(_Camera.Shake(.15f, .4f));
     }
     public void TripleShotActive()
     {
