@@ -251,7 +251,18 @@ public class Player : MonoBehaviour
         {
             _lives = _lives + 1;
             _uiManager.UpdateLives(_lives);
-        }         
+            _rightEngine.SetActive(false);
+            _leftEngine.SetActive(false);
+        }
+        if (_lives == 2)
+        {
+            _rightEngine.SetActive(true);
+        }
+        else if (_lives == 1)
+        {
+            _leftEngine.SetActive(true);
+        }
+                
     }
     public void AddScore(int points)
     {
