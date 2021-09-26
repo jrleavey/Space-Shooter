@@ -6,9 +6,19 @@ public class Player : MonoBehaviour
     [SerializeField]
     private CameraShake _Camera;
     [SerializeField]
+    private float _baseSpeed = 5f;
+    [SerializeField]
     private float _speed = 5f;
     [SerializeField]
+    private float _shiftSpeed = 8;
+    [SerializeField]
+    private float _baseBoostedSpeed = 8f;
+    [SerializeField]
     private float _Boostedspeed = 8f;
+    [SerializeField]
+    private float _shiftBoostedSpeed = 11f;
+    [SerializeField]
+    private ThrusterN _thruster;
     [SerializeField]
     private GameObject _laserprefab;
     [SerializeField]
@@ -66,7 +76,7 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _uiManager.UpdateLives(_lives);
-        if (_spawnManager == null)      
+        if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL!");
         }
@@ -82,7 +92,6 @@ public class Player : MonoBehaviour
         {
             _audioSource.clip = _laserSoundClip;
         }
-
     }
 
 
@@ -98,18 +107,23 @@ public class Player : MonoBehaviour
         {
             Application.Quit();
         }
-        
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+
+        if (Input.GetKey(KeyCode.LeftShift) && _thruster.GetThruster() > 0)
         {
-            _speed = _speed + 3f;
-            _Boostedspeed = _Boostedspeed + 3f;
+            _speed = _shiftSpeed;
+            _Boostedspeed = _shiftBoostedSpeed;
             _thrusters.SetActive(true);
-            
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if(Input.GetKeyUp(KeyCode.LeftShift))
         {
-            _speed = _speed - 3f;
-            _Boostedspeed = _Boostedspeed - 3f;
+            _thrusters.SetActive(false);
+            _speed = _baseSpeed;
+            _Boostedspeed = _baseBoostedSpeed;
+        }
+        if (Input.GetKey(KeyCode.LeftShift) && _thruster.GetThruster() <= 0)
+        {
+            _speed = _baseSpeed;
+            _Boostedspeed = _baseBoostedSpeed;
             _thrusters.SetActive(false);
         }
     }
@@ -128,24 +142,22 @@ public class Player : MonoBehaviour
         {
             transform.Translate(direction * _speed * Time.deltaTime);
         }
-
-        transform.Translate(direction * _speed * Time.deltaTime);
-
         if (transform.position.y >= 0)
-
+        {
             transform.position = new Vector3(transform.position.x, 0, 0);
-
+        }
         else if (transform.position.y <= -3.8f)
-
+        {
             transform.position = new Vector3(transform.position.x, -3.8f);
-
+        }
         if (transform.position.x > 11.4f)
-
+        {
             transform.position = new Vector3(-11.3f, transform.position.y, 0);
-
+        }
         else if (transform.position.x < -11.3f)
-
+        {
             transform.position = new Vector3(11.4f, transform.position.y, 0);
+        }
     }
     void FireLaser()
     {
@@ -168,7 +180,7 @@ public class Player : MonoBehaviour
             _audioSource.Play();
             _uiManager.UpdateAmmo(_ammo);
         }
-        else if(_ammo == 0)
+        else if (_ammo == 0)
         {
             _audioSource2.Play();
         }
@@ -296,7 +308,7 @@ public class Player : MonoBehaviour
         {
             _leftEngine.SetActive(true);
         }
-                
+
     }
 
     public void AddScore(int points)
