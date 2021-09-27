@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _ammo = 15;
     [SerializeField]
+    private int _maxAmmo = 60;
+    [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
     [SerializeField]
@@ -287,6 +289,10 @@ public class Player : MonoBehaviour
     public void GetAmmo()
     {
         _ammo += 15;
+        if (_ammo > 60)
+        {
+            _ammo = _maxAmmo;
+        }
         _uiManager.UpdateAmmo(_ammo);
 
     }

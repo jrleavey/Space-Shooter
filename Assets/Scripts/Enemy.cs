@@ -8,9 +8,10 @@ public class Enemy : MonoBehaviour
     private float _speed = 4.0f;
     [SerializeField]
     private GameObject _enemyLaser;
+    [SerializeField]
+    private int _EnemyDirection;
     private float _fireRate = 3f;
     private float _canFire = -1;
-
     private Player _player;
     private Animator _anim;
     private AudioSource _audioSource;
@@ -37,7 +38,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CalculateMovement();
+        CalculateMovementToptoBottom();
 
         if (Time.deltaTime > _canFire)
         {
@@ -54,10 +55,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void CalculateMovement()
+    void CalculateMovementToptoBottom()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
-
         if (transform.position.y < -4.5f)
         {
             float randomX = Random.Range(-9f, 9f);
