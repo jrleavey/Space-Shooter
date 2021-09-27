@@ -662,6 +662,7 @@ MonoBehaviour:
   - {fileID: 7380108429372507160, guid: 8437377f149abca42beab9b8bb4528ca, type: 3}
   - {fileID: 382551503465012852, guid: a04b1ab5d3be66147baea308c74fb1c6, type: 3}
   - {fileID: 1427593077704192246, guid: e91c905b597eac649a88a0204d14916f, type: 3}
+  - {fileID: 4898284493736682888, guid: cba24bad170e3f948b9f043d90b42e14, type: 3}
   _stopSpawning: 0
 --- !u!4 &394522150
 Transform:
@@ -988,6 +989,7 @@ MonoBehaviour:
   _MissileActive: 0
   _isSpeedActive: 0
   _isShieldActive: 0
+  _isFreezeActive: 0
   _laserSoundClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _audioSource: {fileID: 796842971}
   _noAmmoSoundClip: {fileID: 8300000, guid: 1b4396b08d586334290e07638188ea2f, type: 3}
@@ -1054,7 +1056,7 @@ Transform:
   m_GameObject: {fileID: 796842966}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.5}
   m_Children:
   - {fileID: 1600960390}
   - {fileID: 58666316}

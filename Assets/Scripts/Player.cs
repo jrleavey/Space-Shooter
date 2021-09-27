@@ -60,6 +60,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool _isShieldActive = false;
     [SerializeField]
+    private bool _isFreezeActive = false;
+    [SerializeField]
     private AudioClip _laserSoundClip;
     [SerializeField]
     private AudioSource _audioSource;
@@ -99,6 +101,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (_isFreezeActive == true)
+        {
+            _speed = 0;
+            _shiftSpeed = 0;
+        }
         CalculateMovement();
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
@@ -254,6 +261,7 @@ public class Player : MonoBehaviour
 
     public void SpeedActive()
     {
+        _isFreezeActive = false;
         _isSpeedActive = true;
         StartCoroutine(SpeedPowerDownRoutine());
 
@@ -266,7 +274,6 @@ public class Player : MonoBehaviour
 
 
     }
-
     public void ShieldActive()
     {
         _shieldfull.SetActive(true);
@@ -285,6 +292,26 @@ public class Player : MonoBehaviour
             _shieldminimal.SetActive(false);
         }
     }
+    
+    public void FreezeActive()
+    {
+        _isShieldActive = false;
+        _isSpeedActive = false;
+        _shieldfull.SetActive(false);
+        _shieldpartial.SetActive(false);
+        _shieldminimal.SetActive(false);
+        _isFreezeActive = true;
+        StartCoroutine(FreezeDuration());        
+
+        IEnumerator FreezeDuration()
+        {
+            yield return new WaitForSeconds(3.0f);
+            _isFreezeActive = false;
+            _speed = 5;
+            _shiftSpeed = 8;
+        }
+
+    }    
 
     public void GetAmmo()
     {
