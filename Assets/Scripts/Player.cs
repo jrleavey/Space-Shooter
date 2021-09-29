@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _shieldminimal;
     [SerializeField]
+    private GameObject _tractorBeam;
+    [SerializeField]
     private GameObject _thrusters;
     [SerializeField]
     private GameObject _rightEngine;
@@ -75,7 +77,6 @@ public class Player : MonoBehaviour
     private AudioSource _audioSource3;
     void Start()
     {
-
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -101,7 +102,12 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (_isFreezeActive == true)
+        _tractorBeam.SetActive(false);
+        if (Input.GetKey(KeyCode.C))
+        {
+            _tractorBeam.SetActive(true); // fuck
+        }
+            if (_isFreezeActive == true)
         {
             _speed = 0;
             _shiftSpeed = 0;
