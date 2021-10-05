@@ -7,6 +7,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyPrefab;
     [SerializeField]
+    private GameObject _enemyRammer;
+    [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
     private GameObject[] _powerups;
@@ -21,7 +23,8 @@ public class SpawnManager : MonoBehaviour
 
     public void StartSpawning()
     {
-        StartCoroutine(SpawnEnemyRoutine());
+        //StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnRammerRoutine());
         StartCoroutine(SpawnPowerupRoutine());
     }
 
@@ -43,6 +46,18 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
         }
         
+    }
+    IEnumerator SpawnRammerRoutine()
+    {
+        yield return new WaitForSeconds(3f);
+
+        while (_stopSpawning == false)
+        {
+            Vector3 rampostospawn = new Vector3(12f, Random.Range(-4f,6f), 0);
+            GameObject newRamEnemy = Instantiate(_enemyRammer, rampostospawn, Quaternion.identity);
+            newRamEnemy.transform.parent = _enemyContainer.transform;
+            yield return new WaitForSeconds(3.0f);
+        }
     }
     IEnumerator SpawnPowerupRoutine()
     {

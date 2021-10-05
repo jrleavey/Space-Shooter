@@ -15,7 +15,6 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private Animator _anim;
     private AudioSource _audioSource;
-    [SerializeField]
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -58,11 +57,11 @@ public class Enemy : MonoBehaviour
     void CalculateMovementToptoBottom()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        if (transform.position.y < -4.5f)
-        {
-            float randomX = Random.Range(-9f, 9f);
-            transform.position = new Vector3(randomX, 9f, 0);
-        }
+        //if (transform.position.y < -4.5f)
+        //{
+        //    float randomX = Random.Range(-9f, 9f);
+        //    transform.position = new Vector3(randomX, 9f, 0);
+        //}
 
     }
     private void OnTriggerEnter2D(Collider2D other)

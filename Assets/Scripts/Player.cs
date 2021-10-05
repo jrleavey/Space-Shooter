@@ -105,7 +105,7 @@ public class Player : MonoBehaviour
         _tractorBeam.SetActive(false);
         if (Input.GetKey(KeyCode.C))
         {
-            _tractorBeam.SetActive(true); // fuck
+            _tractorBeam.SetActive(true);
         }
             if (_isFreezeActive == true)
         {
@@ -157,9 +157,9 @@ public class Player : MonoBehaviour
         {
             transform.Translate(direction * _speed * Time.deltaTime);
         }
-        if (transform.position.y >= 0)
+        if (transform.position.y >= 3)
         {
-            transform.position = new Vector3(transform.position.x, 0, 0);
+            transform.position = new Vector3(transform.position.x, 3, 0);
         }
         else if (transform.position.y <= -3.8f)
         {
