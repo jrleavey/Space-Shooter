@@ -27,27 +27,15 @@ public class EnemyRammer : MonoBehaviour
     void Update()
     {
         _distance = Vector3.Distance(transform.position, Player.transform.position);
+        move.AddForce((Player.transform.position - transform.position) * 0.04f);
+        Quaternion rotation = Quaternion.LookRotation(Player.transform.position - transform.position, transform.TransformDirection(Vector3.up));
+        transform.rotation = new Quaternion(0, 0, rotation.z, rotation.w);
 
-        if ( _distance < 5)
+        if (transform.position.x >= 12)
         {
-            move.AddForce((Player.transform.position - transform.position) * 1);
-        }
-        if (transform.position.x > 12f)
-        {
-            float randomY = Random.Range(-4f, 6f);
-            transform.position = new Vector3(-12, randomY, 0);
+            Destroy(this.gameObject);
         }
         transform.Translate(Vector3.right * _speed * Time.deltaTime);
-
-    }
-    void CalculateMovementSideToSide()
-    {
-        transform.Translate(Vector3.right * _speed * Time.deltaTime);
-        if (transform.position.x > 12f)
-        {
-            float randomY = Random.Range(-4f, 6f);
-            transform.position = new Vector3(-12, randomY, 0);
-        }
 
     }
     private void OnTriggerEnter2D(Collider2D other)

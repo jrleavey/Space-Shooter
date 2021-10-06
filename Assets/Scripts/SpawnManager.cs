@@ -23,7 +23,7 @@ public class SpawnManager : MonoBehaviour
 
     public void StartSpawning()
     {
-        //StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnRammerRoutine());
         StartCoroutine(SpawnPowerupRoutine());
     }
@@ -53,7 +53,7 @@ public class SpawnManager : MonoBehaviour
 
         while (_stopSpawning == false)
         {
-            Vector3 rampostospawn = new Vector3(12f, Random.Range(-4f,6f), 0);
+            Vector3 rampostospawn = new Vector3(-12f, Random.Range(-4f,6f), 0);
             GameObject newRamEnemy = Instantiate(_enemyRammer, rampostospawn, Quaternion.identity);
             newRamEnemy.transform.parent = _enemyContainer.transform;
             yield return new WaitForSeconds(3.0f);
