@@ -57,6 +57,8 @@ public class EnemyRammer : MonoBehaviour
 
             _audioSource.Play();
 
+            SpawnManager.Instance.OnEnemyDeath();
+
             Destroy(GetComponent<Collider2D>());
 
             Destroy(GetComponent<SpriteRenderer>(), 0.25f);
@@ -80,6 +82,8 @@ public class EnemyRammer : MonoBehaviour
 
             _audioSource.Play();
 
+            SpawnManager.Instance.OnEnemyDeath();
+
             Destroy(GetComponent<Collider2D>());
 
             Destroy(this.gameObject, 2f);
@@ -100,6 +104,8 @@ public class EnemyRammer : MonoBehaviour
             Destroy(GetComponent<SpriteRenderer>(), 0.25f);
 
             _audioSource.Play();
+
+            SpawnManager.Instance.OnEnemyDeath();
 
             Destroy(GetComponent<Collider2D>());
 

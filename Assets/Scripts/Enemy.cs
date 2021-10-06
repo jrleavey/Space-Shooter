@@ -15,12 +15,15 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private Animator _anim;
     private AudioSource _audioSource;
+    private bool _isShieldOn;
+    [SerializeField]
+    private GameObject _shield;
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _audioSource = GetComponent<AudioSource>();
 
-        if(_player == null)
+        if (_player == null)
         {
             Debug.LogError("The Player is NULL.");
         }
@@ -31,7 +34,16 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("The Animator is NULL.");
         }
-
+        int X = Random.Range(0, 100);
+        if (X >= 50)
+        {
+            _isShieldOn = true;
+        }
+        else
+        {
+            _isShieldOn = false;
+        }
+        _shield.SetActive(_isShieldOn);
     }
 
     // Update is called once per frame
@@ -45,7 +57,7 @@ public class Enemy : MonoBehaviour
             _canFire = Time.time + _fireRate;
             GameObject enemyLaser = Instantiate(_enemyLaser, transform.position, Quaternion.identity);
             Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-            
+
             for (int i = 0; i < lasers.Length; i++)
             {
                 lasers[i].AssignEnemyLaser();
@@ -57,22 +69,22 @@ public class Enemy : MonoBehaviour
     void CalculateMovementToptoBottom()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        //if (transform.position.y < -4.5f)
-        //{
-        //    float randomX = Random.Range(-9f, 9f);
-        //    transform.position = new Vector3(randomX, 9f, 0);
-        //}
+        if (transform.position.y < -4.5f)
+        {
+            float randomX = Random.Range(-9f, 9f);
+            transform.position = new Vector3(randomX, 9f, 0);
+        }
 
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-       
+
 
         if (other.tag == "Player")
         {
             Player player = other.transform.GetComponent<Player>();
             if (player != null)
-            
+
             {
                 player.Damage();
             }
@@ -83,6 +95,8 @@ public class Enemy : MonoBehaviour
 
             _audioSource.Play();
 
+            SpawnManager.Instance.OnEnemyDeath();
+
             Destroy(GetComponent<Collider2D>());
 
             Destroy(this.gameObject, 2f);
@@ -92,41 +106,60 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
-
-            if (_player!= null)
+            if (_isShieldOn == true && _shield.activeInHierarchy == true)
             {
-                _player.AddScore(10);
+                _shield.SetActive(false);
+                _isShieldOn = false;
+                return;
             }
+            else
+            {
+                if (_player != null)
+                {
+                    _player.AddScore(10);
+                }
+                _anim.SetTrigger("OnEnemyDeath");
 
-            _anim.SetTrigger("OnEnemyDeath");
+                _speed = 0;
 
-            _speed = 0;
+                _audioSource.Play();
 
-            _audioSource.Play();
+                SpawnManager.Instance.OnEnemyDeath();
 
-            Destroy(GetComponent<Collider2D>());
+                Destroy(GetComponent<Collider2D>());
 
-            Destroy(this.gameObject, 2f);
-        }    
-    if (other.tag== "Missile")
+                Destroy(this.gameObject, 2f);
+            }
+        }
+        if (other.tag == "Missile")
         {
-            Destroy(other.gameObject);
-
-            if (_player != null)
             {
-                _player.AddScore(10);
+                Destroy(other.gameObject);
+                if (_isShieldOn == true && _shield.activeInHierarchy == true)
+                {
+                    _shield.SetActive(false);
+                    _isShieldOn = false;
+                    return;
+                }
+                else
+                {
+                    if (_player != null)
+                    {
+                        _player.AddScore(10);
+                    }
+                    _anim.SetTrigger("OnEnemyDeath");
+
+                    _speed = 0;
+
+                    _audioSource.Play();
+
+                    SpawnManager.Instance.OnEnemyDeath();
+
+                    Destroy(GetComponent<Collider2D>());
+
+                    Destroy(this.gameObject, 2f);
+                }
             }
-
-            _anim.SetTrigger("OnEnemyDeath");
-
-            _speed = 0;
-
-            _audioSource.Play();
-
-            Destroy(GetComponent<Collider2D>());
-
-            Destroy(this.gameObject, 2f);
         }
     }
-
 }
