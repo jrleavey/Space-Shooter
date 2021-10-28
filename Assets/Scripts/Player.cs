@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     private GameObject _leftEngine;
     [SerializeField]
     private int _score;
+    private int _Wave = 1;
     private UIManager _uiManager;
     [SerializeField]
     private bool _isTripleShotActive = false;
@@ -354,6 +355,11 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);
+    }
+    public void AddWave(int Wave)
+    {
+        _Wave += Wave;
+        _uiManager.UpdateWave(_Wave);
     }
 }
     

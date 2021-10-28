@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     private bool _isShieldOn;
     [SerializeField]
     private GameObject _shield;
+    private bool _isdead = false;
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -78,46 +79,19 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-
-
-        if (other.tag == "Player")
+        if (_isdead == false)
         {
-            Player player = other.transform.GetComponent<Player>();
-            if (player != null)
 
+            if (other.tag == "Player")
             {
-                player.Damage();
-            }
+                _isdead = true;
+                Player player = other.transform.GetComponent<Player>();
+                if (player != null)
 
-            _anim.SetTrigger("OnEnemyDeath");
-
-            _speed = 0;
-
-            _audioSource.Play();
-
-            SpawnManager.Instance.OnEnemyDeath();
-
-            Destroy(GetComponent<Collider2D>());
-
-            Destroy(this.gameObject, 2f);
-        }
-
-
-        if (other.tag == "Laser")
-        {
-            Destroy(other.gameObject);
-            if (_isShieldOn == true && _shield.activeInHierarchy == true)
-            {
-                _shield.SetActive(false);
-                _isShieldOn = false;
-                return;
-            }
-            else
-            {
-                if (_player != null)
                 {
-                    _player.AddScore(10);
+                    player.Damage();
                 }
+
                 _anim.SetTrigger("OnEnemyDeath");
 
                 _speed = 0;
@@ -130,9 +104,9 @@ public class Enemy : MonoBehaviour
 
                 Destroy(this.gameObject, 2f);
             }
-        }
-        if (other.tag == "Missile")
-        {
+
+
+            if (other.tag == "Laser")
             {
                 Destroy(other.gameObject);
                 if (_isShieldOn == true && _shield.activeInHierarchy == true)
@@ -143,6 +117,7 @@ public class Enemy : MonoBehaviour
                 }
                 else
                 {
+                    _isdead = true;
                     if (_player != null)
                     {
                         _player.AddScore(10);
@@ -159,6 +134,38 @@ public class Enemy : MonoBehaviour
 
                     Destroy(this.gameObject, 2f);
                 }
+            }
+            if (other.tag == "Missile")
+            {
+
+                Destroy(other.gameObject);
+                if (_isShieldOn == true && _shield.activeInHierarchy == true)
+                {
+                    _shield.SetActive(false);
+                    _isShieldOn = false;
+                    return;
+                }
+                else
+                {
+                    _isdead = true;
+                    if (_player != null)
+                    {
+                        _player.AddScore(10);
+                        Debug.Log("Hit by Missile");
+                    }
+                    _anim.SetTrigger("OnEnemyDeath");
+
+                    _speed = 0;
+
+                    _audioSource.Play();
+
+                    SpawnManager.Instance.OnEnemyDeath();
+
+                    Destroy(GetComponent<Collider2D>());
+
+                    Destroy(this.gameObject, 2f);
+                }
+
             }
         }
     }

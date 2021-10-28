@@ -23,8 +23,11 @@ public class Powerup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _distance = Vector3.Distance(transform.position, Player.transform.position);
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        if (Player != null)
+        {
+            _distance = Vector3.Distance(transform.position, Player.transform.position);
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        }
         if (Input.GetKey(KeyCode.C) && _distance < 5)
         {
             move.AddForce((Player.transform.position - transform.position) * 1);

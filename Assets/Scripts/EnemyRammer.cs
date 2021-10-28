@@ -62,6 +62,8 @@ public class EnemyRammer : MonoBehaviour
             Destroy(GetComponent<Collider2D>());
 
             Destroy(GetComponent<SpriteRenderer>(), 0.25f);
+
+            Destroy(this.gameObject, 2f);
         }
 
 
@@ -95,6 +97,7 @@ public class EnemyRammer : MonoBehaviour
             if (_player != null)
             {
                 _player.AddScore(10);
+                Debug.Log("Hit by Missile");
             }
 
             Instantiate(_explosion, transform.position, Quaternion.identity);

@@ -17,11 +17,14 @@ public class UIManager : MonoBehaviour
     private Text _gameOverText;
     [SerializeField]
     private Text _restartLevelText;
+    [SerializeField]
+    private Text _waveText;
     private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
     {
         _scoreText.text = "Score: " + 0;
+        _waveText.text = "Wave: 1";
         _ammoText.text = "Ammo:15";
         _gameOverText.gameObject.SetActive(false);
         _restartLevelText.gameObject.SetActive(false);
@@ -41,6 +44,11 @@ public class UIManager : MonoBehaviour
     {
         _ammoText.text = "Ammo:" + Ammocount.ToString();
     }
+    public void UpdateWave(int WaveNumber)
+    {
+        _waveText.text = "Wave: " + WaveNumber.ToString();
+    }
+        
     public void UpdateLives(int currentLives)
     {
         _LivesImg.sprite = _liveSprites[currentLives];
