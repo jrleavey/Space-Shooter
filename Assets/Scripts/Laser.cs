@@ -9,15 +9,8 @@ public class Laser : MonoBehaviour
     private bool _isEnemyLaser = false;
 
     void Update()
-    { 
-        if (_isEnemyLaser == false)
-        {
-            MoveUp();
-        }
-        else
-        {
-            MoveDown();
-        }
+    {
+        LaserDirection();
     }
     void MoveUp()
     {
@@ -62,6 +55,18 @@ public class Laser : MonoBehaviour
             {
                 player.Damage();
             }
+        }
+    }
+
+    void LaserDirection()
+    {
+        if (_isEnemyLaser == false)
+        {
+            MoveUp();
+        }
+        else
+        {
+            MoveDown();
         }
     }
 }

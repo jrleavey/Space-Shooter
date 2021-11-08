@@ -124,7 +124,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 2
   _explosion: {fileID: 471499053183969491, guid: 2a5f3f16c142eae478271db19be1b510, type: 3}
-  _distance: 0
+  _distancetoPlayer: 0
 --- !u!50 &-8542327663936457295
 Rigidbody2D:
   serializedVersion: 4

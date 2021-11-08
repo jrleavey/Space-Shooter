@@ -82,65 +82,17 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _uiManager.UpdateLives(_lives);
-        if (_spawnManager == null)
-        {
-            Debug.LogError("The Spawn Manager is NULL!");
-        }
-        if (_uiManager == null)
-        {
-            Debug.LogError("The UI Manager is NULL!");
-        }
-        if (_audioSource == null)
-        {
-            Debug.LogError("AudioSource on player is NULL!");
-        }
-        else
-        {
-            _audioSource.clip = _laserSoundClip;
-        }
     }
 
 
     void Update()
     {
-        _tractorBeam.SetActive(false);
-        if (Input.GetKey(KeyCode.C))
-        {
-            _tractorBeam.SetActive(true);
-        }
-            if (_isFreezeActive == true)
-        {
-            _speed = 0;
-            _shiftSpeed = 0;
-        }
+        TractorBeam();
         CalculateMovement();
+        Thrusters();
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
             FireLaser();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
-
-        if (Input.GetKey(KeyCode.LeftShift) && _thruster.GetThruster() > 0)
-        {
-            _speed = _shiftSpeed;
-            _Boostedspeed = _shiftBoostedSpeed;
-            _thrusters.SetActive(true);
-        }
-        if(Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            _thrusters.SetActive(false);
-            _speed = _baseSpeed;
-            _Boostedspeed = _baseBoostedSpeed;
-        }
-        if (Input.GetKey(KeyCode.LeftShift) && _thruster.GetThruster() <= 0)
-        {
-            _speed = _baseSpeed;
-            _Boostedspeed = _baseBoostedSpeed;
-            _thrusters.SetActive(false);
         }
     }
     void CalculateMovement()
@@ -360,6 +312,41 @@ public class Player : MonoBehaviour
     {
         _Wave += Wave;
         _uiManager.UpdateWave(_Wave);
+    }
+    void TractorBeam()
+    {
+        _tractorBeam.SetActive(false);
+        if (Input.GetKey(KeyCode.C))
+        {
+            _tractorBeam.SetActive(true);
+        }
+        if (_isFreezeActive == true)
+        {
+            _speed = 0;
+            _shiftSpeed = 0;
+        }
+    }    
+
+    void Thrusters()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && _thruster.GetThruster() > 0)
+        {
+            _speed = _shiftSpeed;
+            _Boostedspeed = _shiftBoostedSpeed;
+            _thrusters.SetActive(true);
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            _thrusters.SetActive(false);
+            _speed = _baseSpeed;
+            _Boostedspeed = _baseBoostedSpeed;
+        }
+        if (Input.GetKey(KeyCode.LeftShift) && _thruster.GetThruster() <= 0)
+        {
+            _speed = _baseSpeed;
+            _Boostedspeed = _baseBoostedSpeed;
+            _thrusters.SetActive(false);
+        }
     }
 }
     

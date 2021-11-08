@@ -20,7 +20,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text _waveText;
     private GameManager _gameManager;
-    // Start is called before the first frame update
     void Start()
     {
         _scoreText.text = "Score: " + 0;
@@ -30,12 +29,6 @@ public class UIManager : MonoBehaviour
         _restartLevelText.gameObject.SetActive(false);
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
     }
-    public void Update()
-    {
-
-    }
-
-    // Update is called once per frame
     public void UpdateScore(int playerscore)
     {
         _scoreText.text = "Score:" + playerscore.ToString();

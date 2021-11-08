@@ -27,6 +27,7 @@ public class Missile : MonoBehaviour
             ChaseTarget();
             
         }
+        MissileLifeTime();
     }
     void TrackTarget()
     {
@@ -60,5 +61,9 @@ public class Missile : MonoBehaviour
         transform.rotation = Quaternion.Euler(Vector3.forward * (angle - 90f));
 
         transform.Translate(transform.up * _speed * Time.deltaTime);
+    }
+    void MissileLifeTime()
+    {
+        Destroy(this.gameObject, 5f);
     }
 }

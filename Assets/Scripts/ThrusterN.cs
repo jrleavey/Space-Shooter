@@ -9,18 +9,24 @@ public class ThrusterN : MonoBehaviour
     private Slider _thrusterBarSlider;
     [SerializeField]
     private float _maxThruster, _thruster;
-    // Start is called before the first frame update
     void Start()
     {
         _thrusterBarSlider = GetComponent<Slider>();
         _thruster = _maxThruster;
         _thrusterBarSlider.maxValue = _maxThruster;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.LeftShift))
+        ToggleThrust();
+    }
+    public float GetThruster()
+    {
+        return _thruster;
+    }
+
+    void ToggleThrust()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             _thruster -= Time.deltaTime;
             _thrusterBarSlider.value = _thruster;
@@ -38,9 +44,5 @@ public class ThrusterN : MonoBehaviour
                 _thruster = _maxThruster;
             }
         }
-    }
-    public float GetThruster()
-    {
-        return _thruster;
     }
 }

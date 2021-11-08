@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    // Start is called before the first frame update
     public IEnumerator Shake (float duration, float magnitude)
     {
         Vector3 originalPos = transform.localPosition;

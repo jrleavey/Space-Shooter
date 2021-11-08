@@ -5,38 +5,25 @@ using UnityEngine;
 public class EnemyRammer : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 2.0f;
+    private float _speed = 5.0f;
     private Player _player;
     private Animator _anim;
     private AudioSource _audioSource;
     [SerializeField]
     private GameObject _explosion;
-    public float _distance;
-    Transform Player;
+    public float _distancetoPlayer;
+    Transform PlayerLocation;
     Rigidbody2D move;
-    // Start is called before the first frame update
     void Start()
     {
         move = GetComponent<Rigidbody2D>();
-        Player = GameObject.FindGameObjectWithTag("Player").transform;
+        PlayerLocation = GameObject.FindGameObjectWithTag("Player").transform;
         _player = GameObject.Find("Player").GetComponent<Player>();
         _audioSource = GetComponent<AudioSource>();
     }
-
-    // Update is called once per frame
     void Update()
     {
-        _distance = Vector3.Distance(transform.position, Player.transform.position);
-        move.AddForce((Player.transform.position - transform.position) * 0.04f);
-        Quaternion rotation = Quaternion.LookRotation(Player.transform.position - transform.position, transform.TransformDirection(Vector3.up));
-        transform.rotation = new Quaternion(0, 0, rotation.z, rotation.w);
-
-        if (transform.position.x >= 12)
-        {
-            Destroy(this.gameObject);
-        }
-        transform.Translate(Vector3.right * _speed * Time.deltaTime);
-
+        ChasePlayer();
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -114,5 +101,12 @@ public class EnemyRammer : MonoBehaviour
 
             Destroy(this.gameObject, 2f);
         }
+    }
+    void ChasePlayer()
+    {
+        float step = (_speed) * Time.deltaTime * 3;
+        transform.position = Vector2.MoveTowards(transform.position, PlayerLocation.position, step);
+        transform.up = (PlayerLocation.position - transform.position) * -1;
+        transform.Rotate(0, 0, -90);
     }
 }

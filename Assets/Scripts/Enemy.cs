@@ -23,18 +23,7 @@ public class Enemy : MonoBehaviour
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _audioSource = GetComponent<AudioSource>();
-
-        if (_player == null)
-        {
-            Debug.LogError("The Player is NULL.");
-        }
-
         _anim = GetComponent<Animator>();
-
-        if (_anim == null)
-        {
-            Debug.LogError("The Animator is NULL.");
-        }
         int X = Random.Range(0, 100);
         if (X >= 50)
         {
@@ -46,25 +35,10 @@ public class Enemy : MonoBehaviour
         }
         _shield.SetActive(_isShieldOn);
     }
-
-    // Update is called once per frame
     void Update()
     {
         CalculateMovementToptoBottom();
-
-        if (Time.deltaTime > _canFire)
-        {
-            _fireRate = Random.Range(3f, 7f);
-            _canFire = Time.time + _fireRate;
-            GameObject enemyLaser = Instantiate(_enemyLaser, transform.position, Quaternion.identity);
-            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-
-            for (int i = 0; i < lasers.Length; i++)
-            {
-                lasers[i].AssignEnemyLaser();
-            }
-
-        }
+        EnemyShooting();
     }
 
     void CalculateMovementToptoBottom()
@@ -167,6 +141,22 @@ public class Enemy : MonoBehaviour
                 }
 
             }
+        }
+    }
+    void EnemyShooting()
+    {
+        if (Time.deltaTime > _canFire)
+        {
+            _fireRate = Random.Range(3f, 7f);
+            _canFire = Time.time + _fireRate;
+            GameObject enemyLaser = Instantiate(_enemyLaser, transform.position, Quaternion.identity);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaser();
+            }
+
         }
     }
 }

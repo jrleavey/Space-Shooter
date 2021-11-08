@@ -6,38 +6,21 @@ public class Powerup : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 3f; 
-    [SerializeField] //0 = Triple shot 1 = Speed 2 = Shields
+    [SerializeField]
     private int powerupID;
     [SerializeField]
     private AudioClip _clip;
     public float _distance;
-    Transform Player;
+    Transform PlayerLocation;
     Rigidbody2D move;
-    // Start is called before the first frame update
     void Start()
     {
         move = GetComponent<Rigidbody2D>();
-        Player = GameObject.FindGameObjectWithTag("Player").transform;
+        PlayerLocation = GameObject.FindGameObjectWithTag("Player").transform;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if (Player != null)
-        {
-            _distance = Vector3.Distance(transform.position, Player.transform.position);
-            transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.C) && _distance < 5)
-        {
-            move.AddForce((Player.transform.position - transform.position) * 1);
-        }
-
-        if (transform.position.y < -4.5f)
-        {
-            Destroy(this.gameObject);
-        }
-      
+        TractorBeamLogic(); 
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -83,5 +66,22 @@ public class Powerup : MonoBehaviour
         }
 
             
+    }
+    void TractorBeamLogic()
+    {
+        if (PlayerLocation != null)
+        {
+            _distance = Vector3.Distance(transform.position, PlayerLocation.transform.position);
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.C) && _distance < 5)
+        {
+            move.AddForce((PlayerLocation.transform.position - transform.position) * 1);
+        }
+
+        if (transform.position.y < -4.5f)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }
